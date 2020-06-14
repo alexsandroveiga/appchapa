@@ -1,19 +1,40 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar } from 'react-native';
+import { AppLoading } from 'expo';
+import {
+  Ubuntu_400Regular,
+  Ubuntu_700Bold,
+  Ubuntu_300Light,
+  useFonts,
+} from '@expo-google-fonts/ubuntu';
+import AppProvider from './src/hooks';
+import Routes from './src/routes';
 
-export default function App() {
+const App: React.FC = () => {
+  const [fontsLoaded] = useFonts({
+    Ubuntu_300Light,
+    Ubuntu_400Regular,
+    Ubuntu_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+    <NavigationContainer>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      <AppProvider>
+        <Routes />
+      </AppProvider>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
